@@ -1,0 +1,16 @@
+version: '3'
+services:
+  ros_robot:
+    build: .
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - .:/catkin_ws
+    network_mode: host
+    command: bash -c "source /opt/ros/noetic/setup.bash && \
+                     cd /catkin_ws && \
+                     catkin_make && \
+                     source devel/setup.bash && \
+                     roslaunch robot_manipulator manipulator.launch"
